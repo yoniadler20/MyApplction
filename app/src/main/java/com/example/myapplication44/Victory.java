@@ -28,12 +28,24 @@ public class Victory {
     }
 
     public int isVictory() {
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 9; i++) {
             if ((this.row[i] * this.row[i + 1] * this.row[i + 2]) == 1) {
                 return 1;
             }
             if ((this.col[i] * this.col[i + 1] * this.col[i + 2]) == 1) {
                 return 1;
+            }
+            if(this.row[0] * this.row[5] * this.row[10] == 1){
+                return  1;
+            }
+            if(this.row[0] * this.row[5] * this.row[10] == 8){
+                return  2;
+            }
+            if(this.col[2] * this.col[5] * this.col[8] == 1){
+                return  1;
+            }
+            if(this.col[2] * this.col[5] * this.col[8] == 8){
+                return  2;
             }
             if ((this.row[i] * this.row[i + 1] * this.row[i + 2]) == 8) {
                 return 2;

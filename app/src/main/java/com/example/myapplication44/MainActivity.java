@@ -2,19 +2,20 @@ package com.example.myapplication44;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.Arrays;
 
 
 public class MainActivity extends AppCompatActivity {
     public Button[] buttons;
-    public Player player = new Player();
     public Victory victory = new Victory();
-    public int WhoPressed = player.WhoTurn();
-    public static int i;
+    public int WhoPressed = 1;
+    public int counter = 0;
 
 
     @Override
@@ -45,12 +46,17 @@ public class MainActivity extends AppCompatActivity {
     public void isPressed() {
         Thread t = new Thread(() -> {
             onClick();
-            while(true){
-                int a = IsVictory();
-                System.out.println(Arrays.toString(victory.getRow()));
-                System.out.println(Arrays.toString(victory.getCol()));
-                if(a == 1){
-                    break;
+            while (true) {
+                if (counter >= 5) {
+                    int isVictory = IsVictory();
+                    System.out.println(Arrays.toString(victory.getRow()));
+                    System.out.println(Arrays.toString(victory.getCol()));
+                    if (isVictory == 1 || isVictory == 2 || isVictory == -1) {
+                        for (int i = 0; i <= 8; i++) {
+                            buttons[i].setClickable(false);
+                        }
+                        break;
+                    }
                 }
             }
         });
@@ -61,79 +67,108 @@ public class MainActivity extends AppCompatActivity {
     public void onClick() {
         buttons[0].setOnClickListener((view) -> {
             isChang(0);
-            victory.setRow(0,WhoPressed);
-
-            victory.setCol(0,WhoPressed);
+            victory.setRow(0, WhoPressed);
+            victory.setCol(0, WhoPressed);
+            buttons[0].setClickable(false);
+            counter++;
         });
         buttons[1].setOnClickListener((view) -> {
             isChang(1);
-            victory.setRow(1,WhoPressed);
-            victory.setCol(4,WhoPressed);
+            victory.setRow(1, WhoPressed );
+            victory.setCol(4, WhoPressed);
+            buttons[1].setClickable(false);
+            counter++;
         });
         buttons[2].setOnClickListener((view) -> {
             isChang(2);
-            victory.setRow(2,WhoPressed);
-            victory.setCol(8,WhoPressed);
+            victory.setRow(2, WhoPressed);
+            victory.setCol(8, WhoPressed);
+            buttons[2].setClickable(false);
+            counter++;
         });
         buttons[3].setOnClickListener((view) -> {
             isChang(3);
-            victory.setRow(4,WhoPressed);
-            victory.setCol(1,WhoPressed);
+            victory.setRow(4, WhoPressed);
+            victory.setCol(1, WhoPressed);
+            buttons[3].setClickable(false);
+            counter++;
         });
         buttons[4].setOnClickListener((view) -> {
             isChang(4);
-            victory.setRow(5,WhoPressed);
-            victory.setCol(5,WhoPressed);
+            victory.setRow(5, WhoPressed);
+            victory.setCol(5, WhoPressed);
+            buttons[4].setClickable(false);
+            counter++;
         });
         buttons[5].setOnClickListener((view) -> {
             isChang(5);
-            victory.setRow(6,WhoPressed);
-            victory.setCol(9,WhoPressed);
+            victory.setRow(6, WhoPressed);
+            victory.setCol(9, WhoPressed);
+            buttons[5].setClickable(false);
+            counter++;
         });
         buttons[6].setOnClickListener((view) -> {
             isChang(6);
-            victory.setRow(8,WhoPressed);
-            victory.setCol(2,WhoPressed);
+            victory.setRow(8, WhoPressed);
+            victory.setCol(2, WhoPressed);
+            buttons[6].setClickable(false);
+            counter++;
         });
         buttons[7].setOnClickListener((view) -> {
             isChang(7);
-            victory.setRow(9,WhoPressed);
-            victory.setCol(6,WhoPressed);
+            victory.setRow(9, WhoPressed);
+            victory.setCol(6, WhoPressed);
+            buttons[7].setClickable(false);
+            counter++;
         });
         buttons[8].setOnClickListener((view) -> {
             isChang(8);
-            victory.setRow(10,WhoPressed);
-            victory.setCol(10,WhoPressed);
+            victory.setRow(10, WhoPressed);
+            victory.setCol(10, WhoPressed);
+            buttons[8].setClickable(false);
+            counter++;
         });
-        System.out.println(WhoPressed);
     }
 
 
     public void isChang(int i) {
-        int isTurn = player.WhoTurn();
-        if (isTurn == 1 && buttons[i].getText() == "") {
+        if (WhoPressed == 1) {
             buttons[i].setText("X");
             buttons[i].setFontFeatureSettings("Arial");
             buttons[i].setTextSize(40);
             buttons[i].setBackgroundColor(Color.GREEN);
-        } else if (isTurn == 2 && buttons[i].getText() == "") {
+            WhoPressed = 2;
+        } else if (WhoPressed == 2) {
             buttons[i].setText("O");
             buttons[i].setFontFeatureSettings("Arial");
             buttons[i].setTextSize(40);
             buttons[i].setBackgroundColor(Color.DKGRAY);
-        } else {
-            player.setIsTurn(player.WhoTurn() + 1);
+            WhoPressed = 1;
         }
     }
 
-    public int  IsVictory(){
-        if(victory.isVictory() == 1){
-            System.out.println("is win 1");
+
+    public int IsVictory() {
+        TextView text = findViewById(R.id.textWin);
+        if (victory.isVictory() == 1) {
+            text.setText("Is win 2: ");
+            text.setFontFeatureSettings("Arial");
+            text.setTextSize(40);
+            text.setBackgroundColor(Color.GRAY);
             return 1;
-        }
-        else if( victory.isVictory() == 2){
-            System.out.println("is win 2");
+        } else if (victory.isVictory() == 2) {
+            text.setText("Is win 1: ");
+            text.setFontFeatureSettings("Arial");
+            text.setTextSize(40);
+            text.setBackgroundColor(Color.GREEN);
             return 2;
+        }
+        if (counter == 9) {
+            text.setText("Nobody own !! !");
+            text.setFontFeatureSettings("Arial");
+            text.setTextSize(40);
+            text.setBackgroundColor(Color.YELLOW);
+            return -1;
         }
         return 0;
     }
