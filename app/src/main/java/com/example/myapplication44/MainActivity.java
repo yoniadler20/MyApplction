@@ -2,7 +2,6 @@ package com.example.myapplication44;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
 import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Button;
@@ -16,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     public Victory victory = new Victory();
     public int WhoPressed = 1;
     public int counter = 0;
+    public Button restart;
 
 
     @Override
@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Buttons();
-
 
     }
 
@@ -39,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
         buttons[6] = findViewById(R.id.b7);
         buttons[7] = findViewById(R.id.b8);
         buttons[8] = findViewById(R.id.b9);
+
+
+        restart = findViewById(R.id.restart);
         isPressed();
 
     }
@@ -52,12 +54,16 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println(Arrays.toString(victory.getRow()));
                     System.out.println(Arrays.toString(victory.getCol()));
                     if (isVictory == 1 || isVictory == 2 || isVictory == -1) {
+
                         for (int i = 0; i <= 8; i++) {
                             buttons[i].setClickable(false);
+
                         }
-                        break;
+
+
                     }
                 }
+                break;
             }
         });
         t.start();
@@ -74,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         });
         buttons[1].setOnClickListener((view) -> {
             isChang(1);
-            victory.setRow(1, WhoPressed );
+            victory.setRow(1, WhoPressed);
             victory.setCol(4, WhoPressed);
             buttons[1].setClickable(false);
             counter++;
@@ -128,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
             buttons[8].setClickable(false);
             counter++;
         });
+        Restart();
     }
 
 
@@ -164,13 +171,20 @@ public class MainActivity extends AppCompatActivity {
             return 2;
         }
         if (counter == 9) {
-            text.setText("Nobody own !! !");
+            text.setText("Nobody own !!!");
             text.setFontFeatureSettings("Arial");
             text.setTextSize(40);
             text.setBackgroundColor(Color.YELLOW);
             return -1;
         }
         return 0;
+    }
+
+    public void Restart() {
+        restart.setOnClickListener((view) -> {
+            recreate();
+        });
+
     }
 
 }
