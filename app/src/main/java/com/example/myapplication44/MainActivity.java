@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
-
 import java.util.Arrays;
 
 
@@ -16,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
     public int WhoPressed = 1;
     public int counter = 0;
     public Button restart;
+    public TextView text ;
+    public TextView textView;
 
 
     @Override
@@ -39,31 +40,29 @@ public class MainActivity extends AppCompatActivity {
         buttons[7] = findViewById(R.id.b8);
         buttons[8] = findViewById(R.id.b9);
 
+        text = findViewById(R.id.textWin);
+        textView = findViewById(R.id.textView);
+        Text();
 
         restart = findViewById(R.id.restart);
         isPressed();
+        onClick();
 
     }
 
     public void isPressed() {
         Thread t = new Thread(() -> {
-            onClick();
             while (true) {
                 if (counter >= 5) {
                     int isVictory = IsVictory();
                     System.out.println(Arrays.toString(victory.getRow()));
                     System.out.println(Arrays.toString(victory.getCol()));
                     if (isVictory == 1 || isVictory == 2 || isVictory == -1) {
-
                         for (int i = 0; i <= 8; i++) {
                             buttons[i].setClickable(false);
-
                         }
-
-
                     }
                 }
-                break;
             }
         });
         t.start();
@@ -156,17 +155,17 @@ public class MainActivity extends AppCompatActivity {
 
 
     public int IsVictory() {
-        TextView text = findViewById(R.id.textWin);
+
         if (victory.isVictory() == 1) {
-            text.setText("Is win 2: ");
+            text.setText("  The player is own is O :");
             text.setFontFeatureSettings("Arial");
-            text.setTextSize(40);
+            text.setTextSize(25);
             text.setBackgroundColor(Color.GRAY);
             return 1;
         } else if (victory.isVictory() == 2) {
-            text.setText("Is win 1: ");
+            text.setText("  The player is own is X :");
             text.setFontFeatureSettings("Arial");
-            text.setTextSize(40);
+            text.setTextSize(25);
             text.setBackgroundColor(Color.GREEN);
             return 2;
         }
@@ -185,6 +184,12 @@ public class MainActivity extends AppCompatActivity {
             recreate();
         });
 
+    }
+    public void Text(){
+        textView.setText("   איקס עיגול");
+        textView.setFontFeatureSettings("Arial");
+        textView.setTextSize(40);
+        textView.setBackgroundColor(Color.YELLOW);
     }
 
 }
